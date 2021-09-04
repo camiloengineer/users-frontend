@@ -1,0 +1,159 @@
+<h1>{{ textHeader }}</h1>
+<hr>
+<br>
+<div class="row" *ngIf="!loading">
+    <div class="col-lg-3">
+        <app-card [user]="user" ></app-card>
+    </div>
+    <div class="col-lg-9">
+        <form [formGroup]="userForm" novalidate (ngSubmit)="onSaveForm()" >
+            <div class="form-group row">
+                <label for="dni" class="col-2 col-form-label">Rut</label>
+                <div class="col-10">
+                    <input (keyup)="changeRut($event)"  autoComplete="off" class="form-control"  appInputDNI type="text" id="dni" name="dni"
+                        formControlName="textDNI" required placeholder="Ingresa tu RUT" autofocus
+                        [ngClass]="{'fg-invalid' : (userForm.controls?.textDNI?.errors?.required || userForm.controls?.textDNI?.errors?.dni  || userForm.controls?.textDNI?.errors?.minlength) && userForm.controls?.textDNI?.dirty }">
+                    <small class="msg-error"
+                        *ngIf="userForm.controls?.textDNI?.errors?.required && userForm.controls?.textDNI?.dirty">
+                        Ingresa rut
+                    </small>
+                    <small class="msg-error"
+                        *ngIf="(userForm.controls?.textDNI?.errors?.dni || userForm.controls?.textDNI?.errors?.minlength) && userForm.controls?.textDNI?.dirty">
+                        Ingresa rut válido
+                    </small>
+                </div>
+            </div>
+            <div class="form-group row my-1">
+                <label for="avatar" class="col-2 col-form-label">Avatar</label>
+                <div class="col-10">
+                    <select 
+                    class="form-control empty" 
+                    id="avatar" 
+                    formControlName="selectedAvatar"  
+                    #selectAvatar
+                    (change)="changeAvatar(selectAvatar.value)"
+                    >
+                        <option disabled value="">Selecciona avatar</option>
+                        <option
+                          *ngFor="let avatar of avatars" 
+                            [attr.value]='avatar' 
+                            [attr.selected]="avatar === user.avatar ? true : null"
+                            >
+                            {{ avatar  | titlecase  }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row my-1">
+                <label for="name" class="col-2 col-form-label">Nombre</label>
+                <div class="col-10">
+                    <input autoComplete="off" (keyup)="changeName($event)"  type="text" id="name" maxlength="50" appRegExp="^[0-9a-zA-Z ñÑ]*$" placeholder="Ingresa el nombre"
+                        class="form-control" formControlName="textName"
+                        [ngClass]="{'fg-invalid' : (userForm.controls?.textName?.errors?.required || userForm.controls?.textName?.errors?.minlength) && userForm.controls?.textName?.dirty }"
+                        >
+                    <small class="msg-error"
+                        *ngIf="userForm.controls?.textName?.errors?.required && userForm.controls?.textName?.dirty">El
+                        nombre es requerido</small>
+                    <small class="msg-error" *ngIf="userForm.controls?.textName?.errors?.minlength && userForm.controls?.textName?.dirty">El nombre es muy corto</small>
+                </div>
+            </div>
+            <div class="form-group row my-1">
+                <label for="email" class="col-2 col-form-label">Email</label>
+                <div class="col-10">
+                    <input  autoComplete="off" (keyup)="changeEmail($event)"  type="text" id="email" class="form-control"  formControlName="textEmail"  placeholder="Ingresa email"
+                    [ngClass]="{'fg-invalid' : (userForm.controls?.textEmail?.errors?.required || userForm.controls?.textEmail?.errors?.email) && userForm.controls?.textEmail?.dirty }"
+                    >
+                        <small class="msg-error"
+                        *ngIf="userForm.controls?.textEmail?.errors?.required && userForm.controls?.textEmail?.dirty">
+                        Ingresa tu email
+                    </small>
+                    <small class="msg-error"
+                        *ngIf="userForm.controls?.textEmail?.errors?.email && userForm.controls?.textEmail?.dirty">
+                        Ingresa tu Email correcto
+                    </small>
+                </div>
+            </div>
+            <div class="form-group row my-1">
+                <label for="phone" class="col-2 col-form-label">Teléfono</label>
+                <div class="col-10">
+                    <input autoComplete="off" type="text" id="phone" maxlength="9" appRegExp="^[0-9]*$" placeholder="99999999" class="form-control"
+                        formControlName="textPhone"
+                        [ngClass]="{'fg-invalid' : (userForm.controls?.textPhone?.errors?.required || userForm.controls?.textPhone?.errors?.minlength) && userForm.controls?.textPhone?.dirty }"
+                        >
+                    <small class="msg-error"
+                        *ngIf="userForm.controls?.textPhone?.errors?.required && (userForm.controls?.textPhone?.dirty || dni )">
+                        El teléfono es requerido
+                    </small>
+                    <small class="msg-error" *ngIf="userForm.controls?.textPhone?.errors?.min">El teléfono es muy
+                        corto</small>
+                </div>
+            </div>
+            <div class="form-group row my-1">
+                <label for="birthDate" class="col-2 col-form-label">Fecha de nacimiento</label>
+                <div class="col-10">
+                    <input autoComplete="off"  class="form-control" formControlName="textBirthDate" type="date" id="birthDate" name="birthDate"
+                        min="1930-01-01" max="2021-09-06"
+                        [ngClass]="{'fg-invalid' : userForm.controls?.textBirthDate?.errors?.required && ( userForm.controls?.textBirthDate?.dirty || dni ) }"
+                        >
+                    <small class="msg-error"
+                        *ngIf="userForm.controls?.textBirthDate?.errors?.required && ( userForm.controls?.textBirthDate?.dirty || dni )">La
+                        fecha es requerida</small>
+                </div>
+            </div>
+            <div class="form-group row my-1">
+                <label for="password" class="col-2 col-form-label">Contraseña</label>
+                <div class="col-10">
+                    <input autoComplete="off" type="password" id="password" maxlength="50" 
+                        class="form-control" formControlName="textPassword"
+                        (focus)="clearPassword($event)" 
+                        (focusout)="setPassword($event)"
+                        placeholder="Ingresa contraseña"
+                        [ngClass]="{'fg-invalid' : (userForm.controls?.textPassword?.errors?.required && userForm.controls?.textPassword?.dirty )}"
+                        >
+                        <small class="msg-error"
+                        *ngIf="userForm.controls?.textPassword?.errors?.required && userForm.controls?.textPassword?.dirty">
+                        La contraseña es requerida
+                    </small>
+                    <small class="msg-error"
+                        *ngIf="userForm.controls?.textPassword?.errors?.minlength && userForm.controls?.textPassword?.dirty">
+                        La contraseña es muy corta
+                    </small>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group row">
+                <label for="status" class="col-2 col-form-label">Estado</label>
+                <div class="col-10">
+                    <button (click)="setActive()"  [ngClass]="user.active ? 'btn-outline-success' : 'btn-outline-danger'"  class="btn w-30" type="button">
+                        <i [ngClass]="user.active ? 'fa fa-smile-o' : 'fa-meh-o'"  class="fa fa"></i>
+                        <span>
+                            {{ user.active ? 'Activo' : 'Inactivo' }}
+                        </span>
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group row justify-content-center align-items-center">
+                <div class="col-sm-2 my-1">
+                    <button type="submit" class="center btn btn-primary btn-block"
+                    [disabled]="userForm.status !== 'VALID' || (userForm.pristine && !setFormActive)"
+                    ><i class="fa fa-save"></i> Guardar</button>
+                </div>
+                <div class="col-sm-2 my-1">
+                    <button class="center btn btn-outline-primary overwhite btn-block" [routerLink]="'/' + [ nameRoutes.home ]"
+                    >
+                        <i class="fa fa-arrow-left"></i> Regresar</button>
+                </div>
+                <div class="col-sm-12" >
+                    <br>
+                    <div class="alert alert-success text-center" role="alert" *ngIf="success">
+                        ¡Usuario guardado correctamente!
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<app-loading-full *ngIf="loading"></app-loading-full>

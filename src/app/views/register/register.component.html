@@ -1,0 +1,117 @@
+<h1 class="display-6 text-left mt-5 text-center">Crea tu cuenta</h1>
+<div class="wrapper fadeInDown">
+    <div class="formContent">
+        <div class="fadeIn first">
+            <i class="fa fa-user-plus fa-5x"></i>
+        </div>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmitForm()">
+            <div class="form-group">
+                <label for="DNI">Rut</label>
+                <input 
+                autoComplete="off"
+                appInputDNI 
+                type="text" 
+                id="DNI" 
+                class="form-control fadeIn second" 
+                name="DNI"
+                formControlName="textDNI" 
+                required 
+                placeholder="Ingresa tu RUT" 
+                autofocus
+                [ngClass]="{'fg-invalid' : (registerForm.controls?.textDNI?.errors?.required || registerForm.controls?.textDNI?.errors?.dni  || registerForm.controls?.textDNI?.errors?.minlength) && registerForm.controls?.textDNI?.dirty }">
+                <small class="msg-error"
+                    *ngIf="registerForm.controls?.textDNI?.errors?.required && registerForm.controls?.textDNI?.dirty">
+                    Ingresa tu rut
+                </small>
+                <small class="msg-error"
+                    *ngIf="(registerForm.controls?.textDNI?.errors?.dni || registerForm.controls?.textDNI?.errors?.minlength) && registerForm.controls?.textDNI?.dirty">
+                    Ingresa tu rut válido
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="name">Nombre</label>
+                <input 
+                appRegExp="^[0-9a-zA-Z ñÑ]*$"
+                autoComplete="off"
+                formControlName="textName" 
+                type="text" 
+                name="name" 
+                id="name"
+                class="form-control fadeIn second" 
+                placeholder="Ingresa tu nombre"
+                [ngClass]="{'fg-invalid' : (registerForm.controls?.textName?.errors?.required || registerForm.controls?.textName?.errors?.minlength) && registerForm.controls?.textName?.dirty }"
+                >
+                <small class="msg-error"
+                    *ngIf="registerForm.controls?.textName?.errors?.required && registerForm.controls?.textName?.dirty">
+                    Ingresa tu nombre
+                </small>
+                <small class="msg-error"
+                    *ngIf="registerForm.controls?.textName?.errors?.minlength && registerForm.controls?.textName?.dirty">
+                    El nombre es muy corto
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input 
+                autoComplete="off"
+                formControlName="textEmail" 
+                type="text" 
+                name="email" 
+                id="email"
+                class="form-control fadeIn second" 
+                placeholder="Ingresa tu email"
+                [ngClass]="{'fg-invalid' : (registerForm.controls?.textEmail?.errors?.required || registerForm.controls?.textEmail?.errors?.email) && registerForm.controls?.textEmail?.dirty }"
+                >
+                <small class="msg-error"
+                    *ngIf="registerForm.controls?.textEmail?.errors?.required && registerForm.controls?.textEmail?.dirty">
+                    Ingresa tu email
+                </small>
+                <small class="msg-error"
+                    *ngIf="registerForm.controls?.textEmail?.errors?.email && registerForm.controls?.textEmail?.dirty">
+                    Ingresa tu Email correcto
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input 
+                autoComplete="off"
+                formControlName="textPassword" 
+                type="password" 
+                name="password" 
+                id="password"
+                class="form-control fadeIn second" 
+                placeholder="Ingresa tu contraseña"
+                [ngClass]="{'fg-invalid' : (registerForm.controls?.textPassword?.errors?.required && registerForm.controls?.textPassword?.dirty )}"
+                >
+                <small class="msg-error"
+                    *ngIf="registerForm.controls?.textPassword?.errors?.required && registerForm.controls?.textPassword?.dirty">
+                    La contraseña es requerida
+                </small>
+                <small class="msg-error"
+                    *ngIf="registerForm.controls?.textPassword?.errors?.minlength && registerForm.controls?.textPassword?.dirty">
+                    La contraseña es muy corta
+                </small>
+            </div>
+            <br>
+            <button 
+                [disabled]="registerForm.status !== 'VALID'"
+                [ngClass]="buttonUI.loading ? 'btn-secondary disabled' : 'btn-primary'" 
+                type="submit" 
+                class="btn center"
+                >
+                Crear cuenta
+                <app-spinner 
+                *ngIf="buttonUI.loading" 
+                [textColor]="'text-light'"
+                ></app-spinner>
+            </button>
+            <br>
+            <div class="text-center">
+                <a class="link" [routerLink]="'/' + [ nameRoutes.login ]" >
+                    ¿Ya tienes una cuenta? Ingresa acá
+                </a>
+                <i class="fas fa-external-link-alt"></i>
+            </div>
+        </form>
+    </div>
+</div>

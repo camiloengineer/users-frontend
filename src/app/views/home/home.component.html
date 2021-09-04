@@ -1,0 +1,25 @@
+<app-navbar></app-navbar>
+
+<nav aria-label="breadcrumb d-flex">
+    <ol class="breadcrumb w-100">
+        <li class="breadcrumb-item active" aria-current="page">Inicio</li>
+    </ol>
+</nav>
+
+<h1 class="display-6 text-left mt-3">Usuarios registrados</h1>
+<hr class="border w-100 border-dark">
+<div *ngIf="!loading" class="container">
+<div  class="col">
+    <div class="row justify-content-center align-items-center">
+        <app-card [showButton]="true"  [user]="user" *ngFor="let user of users" ></app-card>
+    </div>
+</div>
+</div>
+
+<app-loading-full *ngIf="loading"></app-loading-full>
+
+<div *ngIf="users.length === 0 && !loading" class="card alert-warning mb-3 w-100 animated fadeIn" role="alert">
+    <div class="card-body">
+        <p class="card-text">No hay usuarios que mostrar.</p>
+    </div>
+</div>

@@ -1,0 +1,73 @@
+<h1 class="display-6 text-left mt-5 text-center">Ingresar</h1>
+<div class="wrapper fadeInDown">
+    <div class="formContent">
+        <div class="fadeIn first">
+            <i class="fa fa-user-circle-o fa-5x"></i>
+        </div>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmitForm()">
+            <div class="form-group">
+                <label for="DNI">Rut</label>
+                <input 
+                autoComplete="off"
+                appInputDNI 
+                type="text" 
+                id="DNI" 
+                class="form-control fadeIn second" 
+                name="DNI"
+                formControlName="textDNI" 
+                required 
+                placeholder="Ingresa tu RUT" 
+                autofocus
+                [ngClass]="{'fg-invalid' : ((loginForm.controls?.textDNI?.errors?.required || loginForm.controls?.textDNI?.errors?.dni || loginForm.controls?.textDNI?.errors?.minlength) && loginForm.controls?.textDNI?.dirty )}">
+                <small class="msg-error"
+                    *ngIf="loginForm.controls?.textDNI?.errors?.required && loginForm.controls?.textDNI?.dirty">
+                    Ingresa tu rut
+                </small>
+                <small class="msg-error"
+                    *ngIf="(loginForm.controls?.textDNI?.errors?.dni || loginForm.controls?.textDNI?.errors?.minlength) && loginForm.controls?.textDNI?.dirty">
+                    Ingresa tu rut válido
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input 
+                autoComplete="off"
+                formControlName="textPassword" 
+                type="password" 
+                name="password" 
+                id="password"
+                class="form-control fadeIn second" 
+                placeholder="Ingresa tu contraseña"
+                [ngClass]="{'fg-invalid' : loginForm.controls?.textPassword?.errors?.required && loginForm.controls?.textPassword?.dirty }"
+                >
+                <small class="msg-error"
+                    *ngIf="loginForm.controls?.textPassword?.errors?.required && loginForm.controls?.textPassword?.dirty">
+                    La contraseña es requerida
+                </small>
+            </div>
+            <br>
+            <button 
+                [disabled]="loginForm.status !== 'VALID'"
+                [ngClass]="buttonUI.loading ? 'btn-secondary disabled' : 'btn-primary'" 
+                type="submit" 
+                class="btn center"
+                >
+                Ingresar
+                <app-spinner 
+                *ngIf="buttonUI.loading" 
+                [textColor]="'text-light'"
+                ></app-spinner>
+            </button>
+            <small *ngIf="userPasswordIncorrect" class="msg-error text-center">
+                El rut o la contraseña no coinciden
+            </small>
+            <br>
+            <div class="text-center">
+                <a class="link" [routerLink]="'/' + [ nameRoutes.register ]">
+                    Regístrate acá
+                </a>
+                <i class="fas fa-external-link-alt"></i>
+            </div>
+        </form>
+    </div>
+</div>

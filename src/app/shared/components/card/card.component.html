@@ -1,0 +1,15 @@
+<div class="wrapper fadeIn">
+    <div class="card" [ngClass]="{'selected' : user.dni ===  dni}" style="width: 13rem">
+        <img class="card-img-top" [src]="'./assets/img/' + [user?.avatar] + '.png'" alt="Card image cap">
+        <div class="card-body text-center">
+          <h5 class="card-title">{{ user?.name }}</h5>
+          <small class="email d-block mb-1" >{{ user?.email }}</small>
+          <small *ngIf="user?.dni"  class="email d-block mb-1" >{{ user?.dni | dniFormat }}</small>
+          <p>
+              <span *ngIf="user?.active" class="badge bg-success">Activo</span>
+              <span *ngIf="!user?.active" class="badge bg-danger">Inactivo</span>
+          </p>
+          <button *ngIf="showButton" [routerLink]="'/' + [ nameRoutes.detail ] + '/' + [ user.dni ]" [ngClass]="user.dni ===  dni? 'btn-primary' : 'btn-outline-primary'"  class="btn">Ver Detalle</button>
+        </div>
+      </div>
+</div>

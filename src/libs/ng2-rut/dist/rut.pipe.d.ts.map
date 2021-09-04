@@ -1,0 +1,1 @@
+{"version":3,"file":"rut.pipe.d.ts","sources":["rut.pipe.d.ts"],"names":[],"mappings":"AAAA;;AACA;AACA;;;AACA","sourcesContent":["import { PipeTransform } from '@angular/core';\nexport declare class RutPipe implements PipeTransform {\n    transform(value: string): string;\n}\n"]}

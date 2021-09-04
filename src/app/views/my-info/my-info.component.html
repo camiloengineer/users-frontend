@@ -1,0 +1,14 @@
+<app-navbar></app-navbar>
+
+<nav aria-label="breadcrumb d-flex">
+    <ol class="breadcrumb  w-100">
+        <li [routerLink]="['/' + nameRoutes.home ]" class="breadcrumb-item active" aria-current="page">
+            <a [routerLink]="['/' + nameRoutes.home ]">
+                Inicio
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Mis Datos</li>
+    </ol>
+</nav>
+
+<app-user-form></app-user-form>

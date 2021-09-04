@@ -1,0 +1,15 @@
+select {
+    appearance: auto;
+}
+
+select option:first-child {
+    color: #5f5f5f;
+}
+
+select.empty {
+    color: #5f5f5f;
+}
+/* Hidden placeholder */
+select option[disabled]:first-child{
+    display: none;
+} 

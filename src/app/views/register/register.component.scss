@@ -1,0 +1,28 @@
+.form-group{
+    padding: 0 0 2% 0;
+}
+
+img.register{
+    height: 150px
+}
+
+select {
+    appearance: auto;
+
+    option {
+        color: black
+    }
+}
+
+select option:first-child {
+    color: #5f5f5f
+}
+
+select.empty {
+    color: #5f5f5f
+}
+
+/* Hidden placeholder */
+select option[disabled]:first-child {
+    display: none
+}

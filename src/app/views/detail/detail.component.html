@@ -1,0 +1,111 @@
+<app-navbar></app-navbar>
+
+<nav aria-label="breadcrumb d-flex">
+    <ol class="breadcrumb  w-100">
+        <li class="breadcrumb-item active" aria-current="page">
+            <a [routerLink]="['/' + nameRoutes.home ]">
+                Inicio
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Detalle</li>
+    </ol>
+</nav>
+
+
+<h1>Detalle Usuario
+</h1>
+<hr>
+
+<div class="row animated fadeIn fast" *ngIf="!loading">
+    <div class="col-md-4">
+        <img class="img fluid card-img-top" [src]="'/assets/img/' + [user?.avatar] + '.png'" [alt]="user?.name">
+        <br><br>
+        <div class="d-grid gap-2">
+            <button class="btn btn-outline-primary btn-block mb-1" [routerLink]="'/' + [ nameRoutes.home ]">
+                <i class="fa fa-arrow-left"></i> Regresar
+            </button>
+
+            <button *ngIf="!deleted  && dni ===  dniUser" [routerLink]="'/' + [ nameRoutes.myInfo ] + '/' + [ dni ]"
+                class="btn btn-info btn-block mb-1">
+                Editar
+                <i class="fa fa-pencil"></i>
+            </button>
+
+            <button *ngIf="!deleted  && dni !==  dniUser" [routerLink]="'/' + [ nameRoutes.editUser ] + '/' + [ dni ]"
+                class="btn btn-info btn-block mb-1">
+                Editar
+                <i class="fa fa-pencil"></i>
+            </button>
+            <button *ngIf="!deleted" class="btn btn-danger btn-block mb-1" (click)="deleteUser()">
+                Eliminar
+                <i class="fa fa-trash"></i>
+            </button>
+            <div class="alert alert-success" *ngIf="deleted" role="alert">
+                Se eliminó a {{ user?.name }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <h3>{{ user?.name | uppercase }}</h3>
+        <hr>
+        <div class="row">
+            <div class="col-2">
+                <p>
+                    <strong>DNI:</strong>
+                </p>
+            </div>
+            <div class="col-10">
+                <p>
+                    {{ user?.dni | dniFormat }}
+                </p>
+            </div>
+        </div>
+        <div class="row">
+        <div class="col-2">
+            <p>
+                <strong>Email:</strong>
+            </p>
+        </div>
+        <div class="col-10">
+            <p>
+                {{ user?.email }}
+            </p>
+        </div>
+    </div>
+    <div class="row" *ngIf="user?.phone">
+        <div class="col-2">
+            <p >
+                <strong>Teléfono:</strong>
+            </p>
+        </div>
+        <div class="col-10">
+            <p>{{ user?.phone }}</p>
+        </div>
+    </div>
+    <div class="row" *ngIf="validDate">
+        <div class="col-2">
+            <p ><strong>Fecha Nacimiento:</strong></p>
+        </div>
+        <div class="col-10">
+            <p>{{ user?.birthdate | date: 'dd/MM/yyyy' }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <p *ngIf="validDate"><strong>Estado:</strong></p>
+        </div>
+        <div class="col-10">
+            <button *ngIf="user?.active" class="btn btn-outline-success disabled w-50" type="button">
+                <i class="fa fa-smile-o"></i>
+                Activo
+            </button>
+        
+            <button *ngIf="!user?.active" class="btn btn-outline-danger disabled w-50" type="button">
+                <i class="fa fa fa-meh-o"></i>
+                Inactivo
+            </button>
+        </div>
+    </div>
+</div>
+
+<app-loading-full *ngIf="loading"></app-loading-full>
